@@ -1,280 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Pedidos de Material</title>
 
-
     <style>
-
         * {
             box-sizing: border-box;
         }
 
-
         body {
-
             margin: 0;
-
-            min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #eef2f7,
-                    #dfe5ec
-                );
-
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f2f4f7;
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
-            color: #222;
-
+            min-height: 100vh;
         }
-
 
         .contenedor {
-
-            width: 100%;
-
-            max-width: 650px;
-
-            padding: 20px;
-
-        }
-
-
-        .tarjeta {
-
+            width: 90%;
+            max-width: 500px;
             background: white;
-
+            padding: 40px 30px;
             border-radius: 20px;
-
-            padding: 40px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0, 0, 0, 0.12);
-
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
             text-align: center;
-
         }
-
-
-        .icono {
-
-            font-size: 65px;
-
-            margin-bottom: 10px;
-
-        }
-
 
         h1 {
-
-            margin: 0;
-
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #222;
             font-size: 32px;
-
         }
 
-
-        .descripcion {
-
+        .subtitulo {
             color: #666;
-
-            margin-top: 10px;
-
             margin-bottom: 35px;
-
             font-size: 16px;
-
         }
-
 
         .boton {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 12px;
-
+            display: block;
             width: 100%;
-
             padding: 20px;
-
-            margin-top: 15px;
-
-            border-radius: 12px;
-
-            text-decoration: none;
-
+            margin: 15px 0;
+            border: none;
+            border-radius: 14px;
             font-size: 20px;
-
             font-weight: bold;
-
-            color: white;
-
+            cursor: pointer;
+            text-decoration: none;
             transition: 0.2s;
-
         }
 
-
-        .boton-operario {
-
-            background: #198754;
-
+        .boton:hover {
+            transform: scale(1.02);
         }
 
-
-        .boton-operario:hover {
-
-            background: #157347;
-
-            transform: translateY(-2px);
-
+        .pedido {
+            background: #007bff;
+            color: white;
         }
 
-
-        .boton-richero {
-
-            background: #1f2937;
-
+        .tablero {
+            background: #28a745;
+            color: white;
         }
 
-
-        .boton-richero:hover {
-
-            background: #111827;
-
-            transform: translateY(-2px);
-
+        .historial {
+            background: #6f42c1;
+            color: white;
         }
-
-
-        .pie {
-
-            margin-top: 30px;
-
-            color: #999;
-
-            font-size: 13px;
-
-        }
-
-
-        @media (max-width: 600px) {
-
-            .tarjeta {
-
-                padding: 30px 20px;
-
-            }
-
-
-            h1 {
-
-                font-size: 27px;
-
-            }
-
-
-            .boton {
-
-                font-size: 18px;
-
-                padding: 18px;
-
-            }
-
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
+    <div class="contenedor">
 
-<div class="contenedor">
+        <h1>📦 PEDIDOS DE MATERIAL</h1>
 
-
-    <div class="tarjeta">
-
-
-        <div class="icono">
-            📦
+        <div class="subtitulo">
+            Seleccioná una opción
         </div>
 
-
-        <h1>
-            Pedidos de Material
-        </h1>
-
-
-        <div class="descripcion">
-
-            Sistema de solicitud y bajada
-            de materiales
-
-        </div>
-
-
-        <a
-            href="pedido.html"
-            class="boton boton-operario"
-        >
-
-            👷
-            REALIZAR PEDIDO
-
+        <a href="pedido.html" class="boton pedido">
+            👷 REALIZAR PEDIDO
         </a>
 
-
-        <a
-            href="tablero.html"
-            class="boton boton-richero"
-        >
-
-            📦
-            TABLERO DEL RICHERO
-
+        <a href="tablero.html" class="boton tablero">
+            📦 TABLERO DEL RICHERO
         </a>
 
-
-        <div class="pie">
-
-            Sistema interno
-
-        </div>
-
+        <a href="historial.html" class="boton historial">
+            📋 HISTORIAL DE PEDIDOS
+        </a>
 
     </div>
 
-
-</div>
-
-
 </body>
-
 </html>
