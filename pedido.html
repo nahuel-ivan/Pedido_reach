@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pedido de Material</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f2f4f7;
+            color: #222;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 30px;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border: 1px solid #cfd4da;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+        }
+
+        .opcional {
+            font-weight: normal;
+            color: #777;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #198754;
+            color: white;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #157347;
+        }
+
+        button:disabled {
+            background: #8a8a8a;
+            cursor: not-allowed;
+        }
+
+        #mensaje {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .exito {
+            display: block !important;
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .error {
+            display: block !important;
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .obligatorio {
+            color: #dc3545;
+        }
+
+        @media (max-width: 600px) {
+            .contenedor {
+                margin: 10px auto;
+                padding: 10px;
+            }
+
+            .tarjeta {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="tarjeta">
+
+        <h1>📦 Pedido de Material</h1>
+
+        <form id="formPedido">
+
+            <div class="campo">
+                <label for="diseno">
+                    Diseño <span class="obligatorio">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="diseno"
+                    placeholder="Ej: 463575410"
+                    required
+                >
+            </div>
+
+
+            <div class="campo">
+                <label for="cim">
+                    CIM <span class="obligatorio">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="cim"
+                    placeholder="Ej: 0005478675"
+                    required
+                >
+            </div>
+
+
+            <div class="campo">
+                <label for="mastercim">
+                    MASTERCIM
+                    <span class="opcional">(opcional)</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="mastercim"
+                    placeholder="Ingresar si corresponde"
+                >
+            </div>
+
+
+            <div class="campo">
+                <label for="cantidad">
+                    Cantidad
+                    <span class="opcional">(opcional)</span>
+                </label>
+
+                <input
+                    type="number"
+                    id="cantidad"
+                    min="1"
+                    placeholder="Ej: 450"
+                >
+            </div>
+
+
+            <div class="campo">
+                <label for="local">
+                    Local <span class="obligatorio">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="local"
+                    placeholder="Ej: EFB.C.01.05.2"
+                    required
+                >
+            </div>
+
+
+            <button type="submit" id="botonPedido">
+                REALIZAR PEDIDO
+            </button>
+
+        </form>
+
+
+        <div id="mensaje"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // CONFIGURACIÓN SUPABASE
+    // ==========================================
+
+    const SUPABASE_URL = "https://zdoscwyvoazrtpofrabg.supabase.co";
+
+    const SUPABASE_KEY = "sb_publishable_N7bJtip-RJo3KTMUtIotKw_UIfk9R_H";
+
+
+    // ==========================================
+    // FORMULARIO
+    // ==========================================
+
+    const formulario = document.getElementById("formPedido");
+
+    const boton = document.getElementById("botonPedido");
+
+    const mensaje = document.getElementById("mensaje");
+
+
+    formulario.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        // Obtener valores
+        const diseno = document.getElementById("diseno").value.trim();
+
+        const cim = document.getElementById("cim").value.trim();
+
+        const mastercim = document.getElementById("mastercim").value.trim();
+
+        const cantidadValor = document.getElementById("cantidad").value;
+
+        const local = document.getElementById("local").value.trim();
+
+
+        // Validaciones
+        if (diseno === "") {
+            mostrarMensaje("⚠️ Debes ingresar el Diseño.", false);
+            return;
+        }
+
+        if (cim === "") {
+            mostrarMensaje("⚠️ Debes ingresar el CIM.", false);
+            return;
+        }
+
+        if (local === "") {
+            mostrarMensaje("⚠️ Debes ingresar el Local.", false);
+            return;
+        }
+
+
+        // Convertir cantidad a número si fue ingresada
+        let cantidad = null;
+
+        if (cantidadValor !== "") {
+            cantidad = parseInt(cantidadValor);
+
+            if (isNaN(cantidad) || cantidad <= 0) {
+                mostrarMensaje("⚠️ La cantidad debe ser un número mayor a 0.", false);
+                return;
+            }
+        }
+
+
+        // Desactivar botón mientras se envía
+        boton.disabled = true;
+        boton.textContent = "ENVIANDO PEDIDO...";
+
+
+        // Datos que se enviarán a Supabase
+        const pedido = {
+
+            diseno: diseno,
+
+            cim: cim,
+
+            mastercim: mastercim === "" ? null : mastercim,
+
+            cantidad: cantidad,
+
+            local: local,
+
+            estado: "PENDIENTE"
+
+        };
+
+
+        try {
+
+            const respuesta = await fetch(
+                SUPABASE_URL + "/rest/v1/pedidos_material",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": "Bearer " + SUPABASE_KEY,
+                        "Content-Type": "application/json",
+                        "Prefer": "return=representation"
+                    },
+
+                    body: JSON.stringify(pedido)
+                }
+            );
+
+
+            if (!respuesta.ok) {
+
+                const error = await respuesta.text();
+
+                console.error("Error Supabase:", error);
+
+                throw new Error(error);
+            }
+
+
+            const resultado = await respuesta.json();
+
+            console.log("Pedido creado:", resultado);
+
+
+            // Mostrar mensaje
+            mostrarMensaje(
+                "✅ PEDIDO REALIZADO CORRECTAMENTE",
+                true
+            );
+
+
+            // Limpiar formulario
+            formulario.reset();
+
+
+            // Volver al botón normal
+            boton.disabled = false;
+            boton.textContent = "REALIZAR PEDIDO";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            mostrarMensaje(
+                "❌ No se pudo realizar el pedido. Revisa la conexión.",
+                false
+            );
+
+            boton.disabled = false;
+            boton.textContent = "REALIZAR PEDIDO";
+        }
+
+    });
+
+
+    // ==========================================
+    // MOSTRAR MENSAJES
+    // ==========================================
+
+    function mostrarMensaje(texto, exito) {
+
+        mensaje.textContent = texto;
+
+        mensaje.className = exito ? "exito" : "error";
+
+    }
+
+</script>
+
+</body>
+</html>
