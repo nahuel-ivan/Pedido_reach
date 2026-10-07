@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Historial de Pedidos</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #eef1f4;
+
+            color: #222;
+
+        }
+
+
+        header {
+
+            background: #1f2937;
+
+            color: white;
+
+            padding: 20px;
+
+            text-align: center;
+
+        }
+
+
+        header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+        }
+
+
+        .subtitulo {
+
+            margin-top: 8px;
+
+            font-size: 15px;
+
+            opacity: 0.8;
+
+        }
+
+
+        .contenedor {
+
+            width: 100%;
+
+            max-width: 1300px;
+
+            margin: 25px auto;
+
+            padding: 0 20px;
+
+        }
+
+
+        /* ======================================
+           CONTROLES
+        ====================================== */
+
+
+        .controles {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .fila-controles {
+
+            display: grid;
+
+            grid-template-columns:
+                2fr
+                1fr
+                1fr
+                auto
+                auto;
+
+            gap: 12px;
+
+            align-items: end;
+
+        }
+
+
+        .campo label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+
+            color: #555;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #ced4da;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+
+        input:focus {
+
+            border-color: #0d6efd;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(13, 110, 253, 0.15);
+
+        }
+
+
+        button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 12px 18px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .boton-buscar {
+
+            background: #0d6efd;
+
+            color: white;
+
+        }
+
+
+        .boton-buscar:hover {
+
+            background: #0b5ed7;
+
+        }
+
+
+        .boton-limpiar {
+
+            background: #6c757d;
+
+            color: white;
+
+        }
+
+
+        .boton-limpiar:hover {
+
+            background: #5c636a;
+
+        }
+
+
+        /* ======================================
+           RESUMEN
+        ====================================== */
+
+
+        .resumen {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 15px 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 3px 10px
+                rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .contador {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+        }
+
+
+        .ultima {
+
+            font-size: 13px;
+
+            color: #777;
+
+        }
+
+
+        /* ======================================
+           TABLA
+        ====================================== */
+
+
+        .tabla-contenedor {
+
+            background: white;
+
+            border-radius: 15px;
+
+            overflow-x: auto;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1050px;
+
+        }
+
+
+        th {
+
+            background: #343a40;
+
+            color: white;
+
+            padding: 14px 12px;
+
+            text-align: left;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 14px 12px;
+
+            border-bottom:
+                1px solid #e9ecef;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+        }
+
+
+        tr:hover td {
+
+            background: #f8f9fa;
+
+        }
+
+
+        .numero-pedido {
+
+            font-weight: bold;
+
+        }
+
+
+        .estado {
+
+            display: inline-block;
+
+            background: #d1e7dd;
+
+            color: #0f5132;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .local {
+
+            font-weight: bold;
+
+        }
+
+
+        /* ======================================
+           SIN RESULTADOS
+        ====================================== */
+
+
+        .sin-resultados {
+
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: #777;
+
+        }
+
+
+        .sin-resultados .icono {
+
+            font-size: 55px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .sin-resultados h2 {
+
+            color: #444;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        /* ======================================
+           BOTÓN VOLVER
+        ====================================== */
+
+
+        .navegacion {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .volver {
+
+            display: inline-block;
+
+            background: #1f2937;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+        }
+
+
+        .volver:hover {
+
+            background: #111827;
+
+        }
+
+
+        /* ======================================
+           RESPONSIVE
+        ====================================== */
+
+
+        @media (max-width: 900px) {
+
+            .fila-controles {
+
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .contenedor {
+
+                padding: 0 10px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 24px;
+
+            }
+
+
+            .fila-controles {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .resumen {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>📋 HISTORIAL DE PEDIDOS</h1>
+
+    <div class="subtitulo">
+
+        Consulta de materiales bajados
+
+    </div>
+
+</header>
+
+
+<div class="contenedor">
+
+
+    <!-- ======================================
+         NAVEGACIÓN
+    ======================================= -->
+
+    <div class="navegacion">
+
+        <a
+            href="tablero.html"
+            class="volver"
+        >
+
+            ← VOLVER AL TABLERO
+
+        </a>
+
+    </div>
+
+
+    <!-- ======================================
+         FILTROS
+    ======================================= -->
+
+    <div class="controles">
+
+
+        <div class="fila-controles">
+
+
+            <div class="campo">
+
+                <label for="busqueda">
+
+                    🔎 Buscar
+
+                </label>
+
+                <input
+                    type="text"
+                    id="busqueda"
+                    placeholder="Diseño, CIM, MASTERCIM o Local"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="fechaDesde">
+
+                    Desde
+
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaDesde"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="fechaHasta">
+
+                    Hasta
+
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaHasta"
+                >
+
+            </div>
+
+
+            <button
+                class="boton-buscar"
+                onclick="buscar()"
+            >
+
+                🔎 BUSCAR
+
+            </button>
+
+
+            <button
+                class="boton-limpiar"
+                onclick="limpiarFiltros()"
+            >
+
+                LIMPIAR
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         RESUMEN
+    ======================================= -->
+
+    <div class="resumen">
+
+        <div class="contador">
+
+            Pedidos encontrados:
+            <span id="cantidadResultados">
+                0
+            </span>
+
+        </div>
+
+
+        <div
+            class="ultima"
+            id="ultimaActualizacion"
+        >
+
+            Cargando...
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         TABLA
+    ======================================= -->
+
+    <div class="tabla-contenedor">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        PEDIDO
+                    </th>
+
+                    <th>
+                        DISEÑO
+                    </th>
+
+                    <th>
+                        CIM
+                    </th>
+
+                    <th>
+                        MASTERCIM
+                    </th>
+
+                    <th>
+                        CANTIDAD
+                    </th>
+
+                    <th>
+                        LOCAL
+                    </th>
+
+                    <th>
+                        FECHA PEDIDO
+                    </th>
+
+                    <th>
+                        FECHA BAJADO
+                    </th>
+
+                    <th>
+                        ESTADO
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="tablaPedidos">
+
+            </tbody>
+
+        </table>
+
+
+        <div
+            id="sinResultados"
+            class="sin-resultados"
+            style="display: none;"
+        >
+
+            <div class="icono">
+                🔍
+            </div>
+
+            <h2>
+                No se encontraron pedidos
+            </h2>
+
+            <p>
+                Probá con otros datos de búsqueda.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    // ==========================================
+    // CONFIGURACIÓN SUPABASE
+    // ==========================================
+
+
+    const SUPABASE_URL =
+        "https://zdoscwyvoazrtpofrabg.supabase.co";
+
+
+    const SUPABASE_KEY =
+        "sb_publishable_N7bJtip-RJo3KTMUtIotKw_UIfk9R_H";
+
+
+    // ==========================================
+    // VARIABLES
+    // ==========================================
+
+
+    let pedidos = [];
+
+
+    // ==========================================
+    // CARGAR HISTORIAL
+    // ==========================================
+
+
+    async function cargarHistorial() {
+
+
+        try {
+
+
+            const respuesta = await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/pedidos_material" +
+                "?estado=eq.BAJADO" +
+                "&order=fecha_bajado.desc",
+
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY
+
+                    }
+
+                }
+
+            );
+
+
+            if (!respuesta.ok) {
+
+                const error =
+                    await respuesta.text();
+
+                console.error(error);
+
+                throw new Error(
+                    "Error al cargar historial"
+                );
+
+            }
+
+
+            pedidos =
+                await respuesta.json();
+
+
+            mostrarPedidos(pedidos);
+
+
+            document.getElementById(
+                "ultimaActualizacion"
+            ).textContent =
+                "Última actualización: " +
+                new Date().toLocaleTimeString(
+                    "es-AR"
+                );
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            document.getElementById(
+                "ultimaActualizacion"
+            ).textContent =
+                "❌ Error al cargar historial";
+
+        }
+
+    }
+
+
+    // ==========================================
+    // MOSTRAR PEDIDOS
+    // ==========================================
+
+
+    function mostrarPedidos(lista) {
+
+
+        const tbody =
+            document.getElementById(
+                "tablaPedidos"
+            );
+
+
+        const sinResultados =
+            document.getElementById(
+                "sinResultados"
+            );
+
+
+        const cantidadResultados =
+            document.getElementById(
+                "cantidadResultados"
+            );
+
+
+        tbody.innerHTML = "";
+
+
+        cantidadResultados.textContent =
+            lista.length;
+
+
+        if (lista.length === 0) {
+
+
+            sinResultados.style.display =
+                "block";
+
+
+            return;
+
+        }
+
+
+        sinResultados.style.display =
+            "none";
+
+
+        lista.forEach(function(pedido) {
+
+
+            const fila =
+                document.createElement("tr");
+
+
+            const fechaPedido =
+                formatearFecha(
+                    pedido.fecha_hora
+                );
+
+
+            const fechaBajado =
+                formatearFecha(
+                    pedido.fecha_bajado
+                );
+
+
+            fila.innerHTML = `
+
+                <td>
+
+                    <span
+                        class="numero-pedido"
+                    >
+
+                        #${pedido.id}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        pedido.diseno
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        pedido.cim
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        pedido.mastercim ||
+                        "—"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${pedido.cantidad ??
+                    "—"}
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="local"
+                    >
+
+                        ${escapeHTML(
+                            pedido.local
+                        )}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${fechaPedido}
+
+                </td>
+
+
+                <td>
+
+                    ${fechaBajado}
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="estado"
+                    >
+
+                        🟢 BAJADO
+
+                    </span>
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(fila);
+
+
+        });
+
+    }
+
+
+    // ==========================================
+    // BUSCAR
+    // ==========================================
+
+
+    function buscar() {
+
+
+        const texto =
+            document.getElementById(
+                "busqueda"
+            ).value
+            .trim()
+            .toLowerCase();
+
+
+        const fechaDesde =
+            document.getElementById(
+                "fechaDesde"
+            ).value;
+
+
+        const fechaHasta =
+            document.getElementById(
+                "fechaHasta"
+            ).value;
+
+
+        let resultado =
+            pedidos.filter(function(pedido) {
+
+
+                // --------------------------
+                // BÚSQUEDA POR TEXTO
+                // --------------------------
+
+
+                if (texto !== "") {
+
+
+                    const coincide =
+
+                        String(
+                            pedido.diseno ||
+                            ""
+                        )
+                        .toLowerCase()
+                        .includes(texto)
+
+                        ||
+
+                        String(
+                            pedido.cim ||
+                            ""
+                        )
+                        .toLowerCase()
+                        .includes(texto)
+
+                        ||
+
+                        String(
+                            pedido.mastercim ||
+                            ""
+                        )
+                        .toLowerCase()
+                        .includes(texto)
+
+                        ||
+
+                        String(
+                            pedido.local ||
+                            ""
+                        )
+                        .toLowerCase()
+                        .includes(texto);
+
+
+                    if (!coincide) {
+
+                        return false;
+
+                    }
+
+                }
+
+
+                // --------------------------
+                // FECHA DESDE
+                // --------------------------
+
+
+                if (fechaDesde !== "") {
+
+
+                    const fecha =
+                        new Date(
+                            pedido.fecha_bajado
+                        );
+
+
+                    const desde =
+                        new Date(
+                            fechaDesde +
+                            "T00:00:00"
+                        );
+
+
+                    if (fecha < desde) {
+
+                        return false;
+
+                    }
+
+                }
+
+
+                // --------------------------
+                // FECHA HASTA
+                // --------------------------
+
+
+                if (fechaHasta !== "") {
+
+
+                    const fecha =
+                        new Date(
+                            pedido.fecha_bajado
+                        );
+
+
+                    const hasta =
+                        new Date(
+                            fechaHasta +
+                            "T23:59:59"
+                        );
+
+
+                    if (fecha > hasta) {
+
+                        return false;
+
+                    }
+
+                }
+
+
+                return true;
+
+
+            });
+
+
+        mostrarPedidos(resultado);
+
+    }
+
+
+    // ==========================================
+    // LIMPIAR FILTROS
+    // ==========================================
+
+
+    function limpiarFiltros() {
+
+
+        document.getElementById(
+            "busqueda"
+        ).value = "";
+
+
+        document.getElementById(
+            "fechaDesde"
+        ).value = "";
+
+
+        document.getElementById(
+            "fechaHasta"
+        ).value = "";
+
+
+        mostrarPedidos(pedidos);
+
+    }
+
+
+    // ==========================================
+    // FORMATEAR FECHA
+    // ==========================================
+
+
+    function formatearFecha(fecha) {
+
+
+        if (!fecha) {
+
+            return "—";
+
+        }
+
+
+        const fechaObjeto =
+            new Date(fecha);
+
+
+        return (
+
+            fechaObjeto.toLocaleDateString(
+                "es-AR"
+            )
+
+            +
+
+            " "
+
+            +
+
+            fechaObjeto.toLocaleTimeString(
+                "es-AR",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            )
+
+        );
+
+    }
+
+
+    // ==========================================
+    // SEGURIDAD HTML
+    // ==========================================
+
+
+    function escapeHTML(valor) {
+
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.textContent =
+            valor;
+
+
+        return div.innerHTML;
+
+    }
+
+
+    // ==========================================
+    // CARGA INICIAL
+    // ==========================================
+
+
+    cargarHistorial();
+
+
+    // ==========================================
+    // ACTUALIZAR CADA 60 SEGUNDOS
+    // ==========================================
+
+
+    setInterval(
+        cargarHistorial,
+        60000
+    );
+
+
+</script>
+
+
+</body>
+
+</html>
