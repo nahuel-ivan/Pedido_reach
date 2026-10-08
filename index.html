@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Pedidos de Material</title>
@@ -22,11 +25,13 @@
             align-items: center;
 
             min-height: 100vh;
+
+            padding: 20px;
         }
 
         .contenedor {
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 550px;
 
             background: white;
 
@@ -40,44 +45,45 @@
             text-align: center;
         }
 
-        h1 {
-            margin-top: 0;
-            margin-bottom: 10px;
 
-            color: #222;
+        /* ========================= */
+        /* LOGO */
+        /* ========================= */
+
+        .logo {
+            width: 260px;
+            max-width: 80%;
+
+            margin: 0 auto 30px auto;
+
+            display: block;
+        }
+
+
+        /* ========================= */
+        /* LOGIN */
+        /* ========================= */
+
+        #login {
+            display: block;
+        }
+
+        .login-titulo {
+            margin: 0 0 10px 0;
+
+            color: #17202a;
 
             font-size: 30px;
         }
 
-        .subtitulo {
-            color: #666;
+        .login-subtitulo {
+            color: #6b7280;
 
             margin-bottom: 30px;
 
             font-size: 16px;
         }
 
-        /* LOGIN */
-
-        #login {
-
-            display: block;
-
-        }
-
-        #sistema {
-
-            display: none;
-
-        }
-
-        .candado {
-
-            font-size: 55px;
-
-            margin-bottom: 10px;
-
-        }
 
         .campo-clave {
 
@@ -85,7 +91,7 @@
 
             padding: 15px;
 
-            border: 1px solid #ccc;
+            border: 1px solid #d1d5db;
 
             border-radius: 10px;
 
@@ -96,48 +102,50 @@
             margin-bottom: 15px;
 
             outline: none;
-
         }
 
         .campo-clave:focus {
 
-            border-color: #007bff;
+            border-color: #17202a;
 
         }
+
 
         .boton-ingresar {
 
             width: 100%;
 
-            padding: 16px;
+            padding: 15px;
 
             border: none;
 
-            border-radius: 12px;
+            border-radius: 10px;
 
-            background: #007bff;
+            background: #17202a;
 
             color: white;
 
-            font-size: 19px;
+            font-size: 17px;
 
             font-weight: bold;
 
             cursor: pointer;
 
+            transition: 0.2s;
         }
 
         .boton-ingresar:hover {
 
-            background: #0069d9;
+            background: #263442;
 
         }
 
+
         .error {
 
-            color: #dc3545;
+            color: #dc2626;
 
-            font-weight: bold;
+            font-size: 14px;
 
             margin-top: 15px;
 
@@ -145,85 +153,238 @@
 
         }
 
-        /* BOTONES DEL SISTEMA */
+
+        /* ========================= */
+        /* SISTEMA */
+        /* ========================= */
+
+        #sistema {
+
+            display: none;
+
+        }
+
+
+        .encabezado {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .encabezado .logo {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .encabezado h1 {
+
+            margin: 0 0 8px 0;
+
+            color: #17202a;
+
+            font-size: 30px;
+
+        }
+
+
+        .encabezado p {
+
+            color: #6b7280;
+
+            font-size: 16px;
+
+        }
+
+
+        /* ========================= */
+        /* BOTONES */
+        /* ========================= */
+
+        .menu {
+
+            display: grid;
+
+            gap: 15px;
+
+        }
+
 
         .boton {
 
-            display: block;
+            display: flex;
 
-            width: 100%;
+            align-items: center;
+
+            gap: 18px;
+
+            text-decoration: none;
+
+            color: #17202a;
+
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
 
             padding: 20px;
 
-            margin: 15px 0;
-
-            border: none;
-
             border-radius: 14px;
-
-            font-size: 20px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            text-decoration: none;
 
             transition: 0.2s;
 
         }
 
+
         .boton:hover {
 
-            transform: scale(1.02);
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.08);
+
+            background: #ffffff;
 
         }
 
-        .pedido {
 
-            background: #007bff;
+        .icono {
+
+            width: 55px;
+
+            height: 55px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #17202a;
 
             color: white;
 
-        }
+            font-size: 26px;
 
-        .tablero {
-
-            background: #28a745;
-
-            color: white;
+            flex-shrink: 0;
 
         }
 
-        .historial {
 
-            background: #6f42c1;
+        .texto {
 
-            color: white;
+            text-align: left;
 
         }
+
+
+        .texto h2 {
+
+            font-size: 18px;
+
+            margin: 0 0 5px 0;
+
+        }
+
+
+        .texto p {
+
+            font-size: 14px;
+
+            color: #6b7280;
+
+            margin: 0;
+
+        }
+
+
+        /* ========================= */
+        /* CERRAR SESIÓN */
+        /* ========================= */
 
         .cerrar {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 10px;
 
             background: #dc3545;
 
             color: white;
 
-            margin-top: 25px;
-
-            font-size: 16px;
-
-            padding: 14px;
-
-        }
-
-        .mensaje {
-
-            color: #28a745;
+            font-size: 15px;
 
             font-weight: bold;
 
-            margin-bottom: 20px;
+            cursor: pointer;
+
+        }
+
+
+        .cerrar:hover {
+
+            background: #bb2d3b;
+
+        }
+
+
+        /* ========================= */
+        /* FOOTER */
+        /* ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+        }
+
+
+        /* ========================= */
+        /* CELULAR */
+        /* ========================= */
+
+        @media (max-width: 600px) {
+
+            .contenedor {
+
+                padding: 30px 20px;
+
+            }
+
+            .logo {
+
+                width: 220px;
+
+            }
+
+            .login-titulo {
+
+                font-size: 25px;
+
+            }
+
+            .encabezado h1 {
+
+                font-size: 26px;
+
+            }
 
         }
 
@@ -231,29 +392,39 @@
 
 </head>
 
+
 <body>
 
 
 <div class="contenedor">
 
 
-    <!-- ============================= -->
-    <!-- LOGIN -->
-    <!-- ============================= -->
+    <!-- ================================= -->
+    <!-- PANTALLA DE ACCESO -->
+    <!-- ================================= -->
 
     <div id="login">
 
-        <div class="candado">
-            🔐
-        </div>
 
-        <h1>
-            ACCESO AL SISTEMA
+        <img
+            class="logo"
+            src="https://www.media.stellantis.com/cache/b/1/b/0/d/b1b0de6c81a6ca391a55f3e3cadcb2bee4a96063.png"
+            alt="Stellantis"
+        >
+
+
+        <h1 class="login-titulo">
+
+            🔐 ACCESO AL SISTEMA
+
         </h1>
 
-        <div class="subtitulo">
+
+        <p class="login-subtitulo">
+
             Ingresá la clave para continuar
-        </div>
+
+        </p>
 
 
         <input
@@ -269,7 +440,9 @@
             class="boton-ingresar"
             onclick="ingresar()"
         >
+
             🔓 INGRESAR
+
         </button>
 
 
@@ -277,57 +450,173 @@
             id="error"
             class="error"
         >
+
             ❌ Clave incorrecta
+
         </div>
+
 
     </div>
 
 
-    <!-- ============================= -->
-    <!-- SISTEMA -->
-    <!-- ============================= -->
+    <!-- ================================= -->
+    <!-- MENÚ PRINCIPAL -->
+    <!-- ================================= -->
 
     <div id="sistema">
 
-        <h1>
-            📦 PEDIDOS DE MATERIAL
-        </h1>
 
-        <div class="mensaje">
-            ✅ Acceso autorizado
+        <div class="encabezado">
+
+
+            <img
+                class="logo"
+                src="https://www.media.stellantis.com/cache/b/1/b/0/d/b1b0de6c81a6ca391a55f3e3cadcb2bee4a96063.png"
+                alt="Stellantis"
+            >
+
+
+            <h1>
+
+                📦 PEDIDOS DE MATERIAL
+
+            </h1>
+
+
+            <p>
+
+                Gestión de pedidos de material
+
+            </p>
+
+
         </div>
 
 
-        <a
-            href="pedido.html"
-            class="boton pedido"
-        >
-            👷 REALIZAR PEDIDO
-        </a>
+        <div class="menu">
 
 
-        <a
-            href="tablero.html"
-            class="boton tablero"
-        >
-            📦 TABLERO DEL RICHERO
-        </a>
+            <!-- REALIZAR PEDIDO -->
+
+            <a
+                class="boton"
+                href="pedido.html"
+            >
+
+                <div class="icono">
+
+                    👷
+
+                </div>
 
 
-        <a
-            href="historial.html"
-            class="boton historial"
-        >
-            📋 HISTORIAL DE PEDIDOS
-        </a>
+                <div class="texto">
+
+                    <h2>
+
+                        Realizar pedido
+
+                    </h2>
+
+
+                    <p>
+
+                        Solicitar material al richero
+
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- TABLERO -->
+
+            <a
+                class="boton"
+                href="tablero.html"
+            >
+
+                <div class="icono">
+
+                    📦
+
+                </div>
+
+
+                <div class="texto">
+
+                    <h2>
+
+                        Tablero del richero
+
+                    </h2>
+
+
+                    <p>
+
+                        Ver pedidos pendientes
+
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- HISTORIAL -->
+
+            <a
+                class="boton"
+                href="historial.html"
+            >
+
+                <div class="icono">
+
+                    📋
+
+                </div>
+
+
+                <div class="texto">
+
+                    <h2>
+
+                        Historial de pedidos
+
+                    </h2>
+
+
+                    <p>
+
+                        Consultar pedidos realizados
+
+                    </p>
+
+                </div>
+
+            </a>
+
+
+        </div>
 
 
         <button
-            class="boton cerrar"
+            class="cerrar"
             onclick="cerrarSesion()"
         >
+
             🚪 CERRAR SESIÓN
+
         </button>
+
+
+        <div class="footer">
+
+            Sistema de gestión de materiales
+
+        </div>
+
 
     </div>
 
@@ -337,8 +626,9 @@
 
 <script>
 
+
     // =====================================
-    // CLAVE DEL SISTEMA
+    // CLAVE DE ACCESO
     // =====================================
 
     const CLAVE_CORRECTA = "Richero2026";
@@ -350,6 +640,7 @@
 
     function ingresar() {
 
+
         const clave =
             document.getElementById("clave").value;
 
@@ -360,36 +651,37 @@
 
         if (clave === CLAVE_CORRECTA) {
 
-            // Guardamos que inició sesión
+
             sessionStorage.setItem(
                 "accesoPedidos",
                 "true"
             );
 
 
-            // Ocultar login
             document.getElementById("login")
                 .style.display = "none";
 
 
-            // Mostrar sistema
             document.getElementById("sistema")
                 .style.display = "block";
 
 
             error.style.display = "none";
 
-        }
 
-        else {
+        } else {
+
 
             error.style.display = "block";
+
 
             document.getElementById("clave")
                 .value = "";
 
+
             document.getElementById("clave")
                 .focus();
+
 
         }
 
@@ -403,7 +695,7 @@
     document
         .getElementById("clave")
         .addEventListener(
-            "keypress",
+            "keydown",
             function(event) {
 
                 if (event.key === "Enter") {
@@ -421,6 +713,7 @@
     // =====================================
 
     function cerrarSesion() {
+
 
         sessionStorage.removeItem(
             "accesoPedidos"
@@ -441,33 +734,9 @@
     }
 
 
-    // =====================================
-    // COMPROBAR SESIÓN
-    // =====================================
-
-    window.onload = function() {
-
-        const acceso =
-            sessionStorage.getItem(
-                "accesoPedidos"
-            );
-
-
-        if (acceso === "true") {
-
-            document.getElementById("login")
-                .style.display = "none";
-
-
-            document.getElementById("sistema")
-                .style.display = "block";
-
-        }
-
-    };
-
 </script>
 
 
 </body>
+
 </html>
